@@ -1,168 +1,175 @@
-Gerador de Nuvem de Palavras por Turmas — Google Sheets + spaCy + WordCloud
+# 🧠✨ **Gerador de Nuvens de Palavras por Emoção e Turma**  
+### *Google Sheets → Análise Linguística → WordCloud Inteligente*
 
-Projeto que lê respostas de um Google Sheets, processa textos emocionais de alunos, identifica a emoção predominante por turma e gera nuvens de palavras personalizadas, priorizando as frases mais recentes e filtrando stopwords em português.
+[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)]()  
+[![spaCy](https://img.shields.io/badge/spaCy-NLP-orange)]()  
+[![Google Sheets API](https://img.shields.io/badge/Google%20Sheets-API-success?logo=google-sheets&logoColor=white)]()  
+[![WordCloud](https://img.shields.io/badge/WordCloud-Visualization-blue)]()  
+[![License MIT](https://img.shields.io/badge/License-MIT-yellow)]()
 
-1. Visão Geral
+---
 
-Este script:
+## 🚀 **Sobre o Projeto**
 
-Conecta à API do Google Sheets (modo leitura).
+Este projeto conecta-se a uma planilha do **Google Sheets**, lê frases emocionais enviadas por alunos, identifica a emoção predominante em cada turma e gera **nuvens de palavras coloridas**, filtradas por relevância e priorizando as frases mais recentes.
 
-Extrai dados de uma planilha no formato:
-Data/Hora – Emoção – Frase – Turma – …
+A análise inclui:
 
-Organiza as frases por turma.
+- 🧹 Remoção de *stopwords* em português (spaCy)  
+- 🎨 Escolha automática da cor da nuvem com base na emoção predominante  
+- 🕒 Ordenação por data (da mais recente para a mais antiga)  
+- ☁️ Geração visual com WordCloud  
+- 🏫 Processamento por **turma**  
+- 🔐 Autenticação OAuth2 integrada ao Google  
 
-Remove stopwords usando spaCy (pt_core_news_sm).
+É plug-and-play: basta colocar o `cliente_secret.json` e rodar.
 
-Calcula a emoção predominante da turma.
+---
 
-Gera uma WordCloud colorida baseada nessa emoção.
+## 📸 **Exemplo de Resultado**
+*(adicione aqui o print da nuvem se quiser)*
 
-Ordena as frases por data, dando mais peso ao que é recente.
+---
 
-2. Tecnologias Utilizadas
+## 📦 **Tecnologias Utilizadas**
 
-Python 3
+| Tecnologia | Uso |
+|-----------|------|
+| **Python** | Execução do projeto |
+| **Google Sheets API** | Leitura dos dados |
+| **spaCy (pt_core_news_sm)** | NLP + remoção de stopwords |
+| **WordCloud** | Visualização |
+| **matplotlib** | Renderização das nuvens |
+| **OAuth2** | Autenticação |
 
-Google Sheets API
+---
 
-spaCy (pt_core_news_sm)
+## 🔧 **Instalação**
 
-WordCloud
+### 1️⃣ Clone o projeto
+```sh
+git clone https://github.com/SEU-REPO-AQUI
+cd projeto-wordcloud
+```
 
-matplotlib
-
-collections.Counter
-
-OAuth2 (token.json)
-
-3. Instalação
-Clone o projeto
-git clone https://github.com/.../seu-repo.git
-cd seu-repo
-
-Instale dependências
+### 2️⃣ Instale as dependências
+```sh
 pip install -r requirements.txt
+```
 
-Instale o modelo do spaCy
+### 3️⃣ Baixe o modelo spaCy
+```sh
 python -m spacy download pt_core_news_sm
+```
 
-4. Configuração da API Google
+### 4️⃣ Configure a API Google
 
-Entre em
-https://console.cloud.google.com
+1. Acesse https://console.cloud.google.com  
+2. Crie um projeto.  
+3. Ative **Google Sheets API**.  
+4. Baixe o `credentials.json`.  
+5. Renomeie para:  
+   ```
+   cliente_secret.json
+   ```
+6. Coloque na raiz do projeto.
 
-Crie um projeto.
+Na primeira execução, um navegador abrirá pedindo login.  
+Depois disso, será criado automaticamente o arquivo `token.json`.
 
-Ative Google Sheets API.
+---
 
-Baixe o arquivo credentials.json (renomeado no projeto para cliente_secret.json).
+## ▶️ **Como Executar**
 
-Coloque-o na raiz do projeto.
-
-O script gerará automaticamente um token.json na primeira execução.
-
-5. Como Rodar
+```sh
 python main.py
+```
 
+Pronto. Ele gera automaticamente a nuvem da turma específica configurada:
 
-Na primeira execução, abrirá uma janela de autenticação Google.
-
-6. Estrutura Interna do Script
-Extração dos dados
-
-Lê a aba "Respostas!A:I" da planilha.
-
-Remove itens vazios.
-
-Extrai:
-data/hora, emoção, frase, turma.
-
-Organização por turmas
-turmas[turma] = {
-    "frases": [(data_hora, frase), ...],
-    "emocoes": [emocao1, emocao2, ...]
-}
-
-Limpeza com spaCy
-
-Remove stopwords mantendo apenas palavras relevantes.
-
-Emoção predominante
-
-Conta frequência e escolhe a mais comum:
-
-Counter(emocoes).most_common(1)
-
-Cores por emoção
-EMOTION_COLORS = {
-    "Nojo": "green",
-    "Felicidade": "yellow",
-    "Tristeza": "blue",
-    "Medo": "purple",
-    "Raiva": "red",
-    "Surpresa": "orange",
-}
-
-Geração da nuvem
-
-Ordena frases por data (mais recentes primeiro)
-
-Remove stopwords
-
-Gera WordCloud colorida com a predominância emocional
-
-wordcloud = WordCloud(
-    width=800, height=400,
-    background_color="white",
-    color_func=lambda *args, **kwargs: cor_nuvem
-)
-
-7. Alterar a turma desejada
-
-Edite a linha final:
-
+```python
 gerar_nuvem_turma("1ºI")
+```
 
+---
+
+## 🎨 **Cores por Emoção**
+
+| Emoção | Cor |
+|--------|------|
+| Raiva | 🔴 Red |
+| Tristeza | 🔵 Blue |
+| Felicidade | 🟡 Yellow |
+| Medo | 🟣 Purple |
+| Nojo | 🟢 Green |
+| Surpresa | 🟠 Orange |
+
+---
+
+## 📊 **Formato da Planilha Esperado**
+
+| Data/Hora | Emoção | Frase | Turma | ... |
+|-----------|--------|--------|--------|------|
+| 12/11/2024 10:15:03 | Raiva | Estou cansado | 1ºI | ... |
+
+---
+
+## 🛠️ **Como Alterar a Turma Processada**
+
+No final do script:
+
+```python
+gerar_nuvem_turma("1ºI")
+```
 
 Exemplos:
 
+```python
 gerar_nuvem_turma("2ºC")
 gerar_nuvem_turma("3ºA")
+```
 
-8. Estrutura da Planilha Esperada
-Data/Hora	Emoção	Frase	Turma	...
-12/11/2024 10:15:03	Raiva	Estou cansado	1ºI	…
-9. Possíveis Erros
-Erro de autenticação
+---
 
-Delete token.json e rode novamente.
+## ⚠️ **Possíveis Problemas e Soluções**
 
-Modelo spaCy não instalado
+### ❌ spaCy não instalado
+```
 OSError: [E050] Can't find model 'pt_core_news_sm'
-
-
-Instale:
-
+```
+✔️ Solução:
+```sh
 python -m spacy download pt_core_news_sm
+```
 
-Formato de data inválido
+---
 
-O script espera:
+### ❌ Erro de autenticação Google
+Apague o arquivo e execute de novo:
+```
+token.json
+```
 
-"%d/%m/%Y %H:%M:%S"
+---
 
-10. Melhorias Futuras
+### ❌ Erro de data inválida
+O script exige:
+```
+%d/%m/%Y %H:%M:%S
+```
 
-Exportar nuvens como PNG automaticamente
+---
 
-Dashboard web com Streamlit
+## 🧭 **Melhorias Futuras**
 
-Agrupar emoções por período
+- Exportação automática em PNG/JPEG  
+- Dashboard web (Streamlit)  
+- Comparação emocional por período  
+- Heatmaps emocionais por turma  
+- Modo relatório PDF automático  
 
-Comparar evolução emocional por turma
+---
 
-11. Licença
+## 📄 **Licença**
 
-MIT – Livre para uso e adaptação.
+MIT — Livre para usar, estudar, modificar e distribuir.
